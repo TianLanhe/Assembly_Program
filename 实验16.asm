@@ -7,7 +7,7 @@ code segment
 	mov word ptr es:[di],offset sub1 - offset setscreen + 0
 	mov word ptr es:[di+2],offset sub2 - offset setscreen + 0
 	mov word ptr es:[di+4],offset sub3 - offset setscreen + 0
-	mov word ptr es:[di+6],offset sub4 - offset setscreen + 0	;½«ËÄ¸ö×Ó³ÌĞòÏà¶ÔÓÚsetscreenµÄÆ«ÒÆµØÖ·±£´æÔÚ±íÖĞ
+	mov word ptr es:[di+6],offset sub4 - offset setscreen + 0	;å°†å››ä¸ªå­ç¨‹åºç›¸å¯¹äºsetscreençš„åç§»åœ°å€ä¿å­˜åœ¨è¡¨ä¸­
 
 	mov ax,cs
 	mov ds,ax
@@ -15,7 +15,7 @@ code segment
 
 	mov ax,5000h
 	mov es,ax
-	mov di,0			;½«³ÌĞò°²×°µ½5000:0
+	mov di,0			;å°†ç¨‹åºå®‰è£…åˆ°5000:0
 
 	mov cx,offset setend - offset setscreen
 	cld
@@ -24,7 +24,7 @@ code segment
 	mov ax,0
 	mov es,ax
 	mov word ptr es:[7ch*4],0
-	mov word ptr es:[7ch*4+2],5000h	;½«int 7chÖĞ¶ÏÀı³Ì¸ÄÎªĞÂ³ÌĞò
+	mov word ptr es:[7ch*4+2],5000h	;å°†int 7chä¸­æ–­ä¾‹ç¨‹æ”¹ä¸ºæ–°ç¨‹åº
 
 	mov ax,4c00h
 	int 21h
