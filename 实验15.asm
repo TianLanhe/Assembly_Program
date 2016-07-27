@@ -5,18 +5,18 @@ data ends
 code segment
   start:mov ax,cs
 	mov es,ax
-	mov di,offset data2		;ÉèÖÃes:diÖ¸ÏòÄ¿µÄµØÖ·
+	mov di,offset data2		;è®¾ç½®es:diæŒ‡å‘ç›®çš„åœ°å€
 
 	mov ax,0
 	mov ds,ax
-	mov si,9*4			;ÉèÖÃds:siÖ¸Ïò9ºÅÖĞ¶ÏÏòÁ¿
+	mov si,9*4			;è®¾ç½®ds:siæŒ‡å‘9å·ä¸­æ–­å‘é‡
 
 	mov cx,2
      lo:mov ax,[si]
 	mov es:[di],ax
 	add di,2
 	add si,2
-	loop lo				;½«Ô­int9µÄµØÖ·¸´ÖÆµ½Ä¿µÄµØÖ·
+	loop lo				;å°†åŸint9çš„åœ°å€å¤åˆ¶åˆ°ç›®çš„åœ°å€
 	
 	mov ax,cs
 	mov ds,ax
@@ -24,7 +24,7 @@ code segment
 	
 	mov ax,5000h
 	mov es,ax
-	mov di,0			;½«ĞÂµÄÖĞ¶ÏÀı³Ì°²×°ÔÚ5000:0´¦
+	mov di,0			;å°†æ–°çš„ä¸­æ–­ä¾‹ç¨‹å®‰è£…åœ¨5000:0å¤„
 
 	mov cx,offset int9end - offset int9
 	cld
@@ -42,7 +42,7 @@ code segment
 	int 21h
 
    int9:jmp short start_9
-  data2:db 4 dup (0)		;´¢´æÔ­int9µÄµØÖ·
+  data2:db 4 dup (0)		;å‚¨å­˜åŸint9çš„åœ°å€
 start_9:push ax
 	push bx
 	push cx
@@ -58,17 +58,17 @@ start_9:push ax
 
 	cmp al,9eh
 	mov dl,'A'
-	je ok			;½øĞĞ±È½Ï£¬ÈôÉ¨ÃèÂëÊÇ¡®A¡¯ÔòÌø×ªµ½´òÓ¡µÄµØ·½
+	je ok			;è¿›è¡Œæ¯”è¾ƒï¼Œè‹¥æ‰«æç æ˜¯â€˜Aâ€™åˆ™è·³è½¬åˆ°æ‰“å°çš„åœ°æ–¹
 	mov ah,82h
 	mov cx,9
 	mov dh,'1'
       l:cmp al,ah
 	mov dl,dh
-	je ok			;ÈôÓë1~9ÓĞ·ûºÏµÄ£¬ÔòÌø×ªµ½´òÓ¡µÄµØ·½
+	je ok			;è‹¥ä¸1~9æœ‰ç¬¦åˆçš„ï¼Œåˆ™è·³è½¬åˆ°æ‰“å°çš„åœ°æ–¹
 	inc ah
 	inc dh
 	loop l
-	jmp intret		;Èô¶¼Ã»ÓĞ·ûºÏµÄ£¬ÔòÌø¹ı´òÓ¡£¬Ìø×ªµ½½áÊøµÄµØ·½
+	jmp intret		;è‹¥éƒ½æ²¡æœ‰ç¬¦åˆçš„ï¼Œåˆ™è·³è¿‡æ‰“å°ï¼Œè·³è½¬åˆ°ç»“æŸçš„åœ°æ–¹
      ok:mov ax,0b800h
 	mov ds,ax
 	mov bx,0
