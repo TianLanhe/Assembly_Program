@@ -18,40 +18,40 @@ tmp segment
 tmp ends
 code segment
   start:mov ax,data
-	mov ds,ax	;����dsָ��Դ���ݵ�ַ
+	mov ds,ax	;设置ds指向源数据地址
 	 
 	mov ax,table
-	mov es,ax	;����esָ��Ŀ�ĵ�ַ
+	mov es,ax	;设置es指向目的地址
 
 	mov ax,stack
 	mov ss,ax
-	mov sp,30H	;����ջ
+	mov sp,30H	;设置栈
 
-	mov bp,0	;bpΪԴ����(���ֽ�)��ǰ��ȡλ��
-	mov bx,0	;bxΪ����
-	mov di,0	;diΪԴ����(���ֽ�)��ǰ��ȡλ��
-	mov cx,21	;�������ѭ��21��
+	mov bp,0	;bp为源数据(两字节)当前读取位置
+	mov bx,0	;bx为行数
+	mov di,0	;di为源数据(四字节)当前读取位置
+	mov cx,21	;设置外层循环21次
 
       s:mov si,0
 	push cx
-	mov cx,2	;��ջ������ѭ��2�Σ�����ݺ���������ζ�ȡ
+	mov cx,2	;入栈并设置循环2次，将年份和收入分两次读取
 
      s0:mov ax,[di]
-	mov es:[bx].[si],ax	;�����ת�Ƶ�Ŀ�ĵ�ַ
+	mov es:[bx].[si],ax	;将年份转移到目的地址
 	mov ax,84[di]
-	mov es:[bx].5[si],ax	;������ת�Ƶ�Ŀ�ĵ�ַ
+	mov es:[bx].5[si],ax	;将收入转移到目的地址
 	add si,2
   	add di,2
 	loop s0
-	mov byte ptr es:[bx].[si],0	;����ݺ����0����ʾ�ַ�������
+	mov byte ptr es:[bx].[si],0	;在年份后加上0，表示字符产结束
 
 	mov ax,ds:168[bp]
-	mov es:[bx].10,ax	;����Ա��ת�Ƶ�Ŀ�ĵ�ַ
+	mov es:[bx].10,ax	;将雇员数转移到目的地址
 	mov ax,es:[bx].5
 	mov dx,es:[bx].7
 	mov cx,ds:168[bp]
-	call divdw		;���г����������˾�����
-	mov es:[bx].13,ax	;�����ת�Ƶ�Ŀ�ĵ�ַ
+	call divdw		;进行除法，计算人均收入
+	mov es:[bx].13,ax	;将结果转移到目的地址
 	add bp,2
 	pop cx
 	add bx,10H
@@ -59,7 +59,7 @@ code segment
 	
 	mov dh,-1
 	mov bx,0
-	mov cx,21	;����cxѭ��21��
+	mov cx,21	;设置cx循环21次
     pri:push cx
 	mov ax,es
 	mov ds,ax
@@ -67,24 +67,24 @@ code segment
 	add dh,1
 	mov dl,0
 	mov cl,12
-	call show_str		;������
+	call show_str		;输出年份
 
 	mov ax,es:[bx].5
 	mov di,es:[bx].7
 	mov dl,5
-	call print		;�������
+	call print		;输出收入
 	
 	mov ax,es:[bx].10
 	mov di,0
 	mov dl,13
-	call print		;�����Ա��
+	call print		;输出雇员数
 
 	mov ax,es:[bx].13
 	mov di,0
 	mov dl,19
-	call print		;����˾�����
+	call print		;输出人均收入
 
-	add bx,10h		;bx�ۼӣ�������һ��
+	add bx,10h		;bx累加，进入下一行
 	pop cx
 	loop pri
 
@@ -96,32 +96,32 @@ show_str:push bx
 	 push si
 	 push ax
 	 push cx
-	 push dx		;����Ĵ���
+	 push dx		;保存寄存器
 
 	 mov ax,0B800H
-	 mov es,ax		;����es��bxΪ����׵�ַ
-	 mov al,cl		;����alΪ��ɫ���Կճ�cx������ѭ��
+	 mov es,ax		;设置es：bx为输出首地址
+	 mov al,cl		;设置al为颜色，以空出cx来控制循环
 
 	 mov cl,dh
-	 mov ch,0		;����cxΪdh��bx�ۼӵ�Ҫ�������
+	 mov ch,0		;设置cx为dh，bx累加到要输出的行
 	 mov bx,160
        l:add bx,160
 	 loop l
 	 mov dh,0
 	 add bx,dx
-	 add bx,dx		;bx�ۼӵ�������У����ˣ����λ���������
+	 add bx,dx		;bx累加到输出的列，至此，输出位置设置完毕
 	 
       lo:mov cl,ds:[si]
-	 mov ch,0		;�����ȡds��siָ������ݣ������0������ѭ���������������������
+	 mov ch,0		;逐个读取ds：si指向的内容，如果是0则跳出循环，否则进行相关输出操作
 	 inc si
-	 jcxz loo		;�������Ϊ0��������
-	 mov es:[bx],cl		;�������
+	 jcxz loo		;如果内容为0，则跳出
+	 mov es:[bx],cl		;输出内容
 	 inc bx
-	 mov es:[bx],al		;�����ʽ
+	 mov es:[bx],al		;输出样式
 	 inc bx
 	 loop lo
 
-     loo:pop dx			;�ָ��Ĵ���
+     loo:pop dx			;恢复寄存器
 	 pop cx
 	 pop ax
 	 pop si
