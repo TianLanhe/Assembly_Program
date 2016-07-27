@@ -36,11 +36,3 @@ code segment
 
 code ends
 end start
-
-
-
-
-
-
-
-
