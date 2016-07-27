@@ -5,19 +5,19 @@ stack ends
 code segment
    start:mov ax,cs
 	 mov ds,ax
-	 mov si,offset do0			;ÉèÖÃds:siÖ¸Ïòdo0³ÌÐòµÄÊ×µØÖ·
+	 mov si,offset do0			;è®¾ç½®ds:siæŒ‡å‘do0ç¨‹åºçš„é¦–åœ°å€
 
 	 mov ax,5000H
 	 mov es,ax
-	 mov di,200H				;ÉèÖÃes:diÖ¸ÏòÄ¿µÄµØÖ·
+	 mov di,200H				;è®¾ç½®es:diæŒ‡å‘ç›®çš„åœ°å€
 
 	 mov ax,stack
 	 mov ss,ax
 	 mov sp,10H
 
-	 mov cx,offset end_all - offset do0	;ÉèÖÃcx³¤¶È£¬¼´Òª¸´ÖÆµÄÊý¾Ý³¤¶È
+	 mov cx,offset end_all - offset do0	;è®¾ç½®cxé•¿åº¦ï¼Œå³è¦å¤åˆ¶çš„æ•°æ®é•¿åº¦
 	 cld
-	 rep movsb				;½«³ÌÐò¸´ÖÆµ½5000:0200´¦
+	 rep movsb				;å°†ç¨‹åºå¤åˆ¶åˆ°5000:0200å¤„
 
 	 mov ax,0
 	 mov ds,ax
@@ -26,7 +26,7 @@ code segment
 	 mov [bx],ax
 	 mov ax,5000H
 	 add bx,2
-	 mov [bx],ax			;ÉèÖÃÖÐ¶ÏÏòÁ¿±íÖÐ0ºÅÏòÁ¿Îª5000:0200
+	 mov [bx],ax			;è®¾ç½®ä¸­æ–­å‘é‡è¡¨ä¸­0å·å‘é‡ä¸º5000:0200
 	 
 	 mov ax,4c00H
          int 21h
@@ -49,32 +49,32 @@ show_str:push bx
 	 push si
 	 push ax
 	 push cx
-	 push dx		;±£´æ¼Ä´æÆ÷
+	 push dx		;ä¿å­˜å¯„å­˜å™¨
 
 	 mov ax,0B800H
-	 mov es,ax		;ÉèÖÃes£ºbxÎªÊä³öÊ×µØÖ·
-	 mov al,cl		;ÉèÖÃalÎªÑÕÉ«£¬ÒÔ¿Õ³öcxÀ´¿ØÖÆÑ­»·
+	 mov es,ax		;è®¾ç½®esï¼šbxä¸ºè¾“å‡ºé¦–åœ°å€
+	 mov al,cl		;è®¾ç½®alä¸ºé¢œè‰²ï¼Œä»¥ç©ºå‡ºcxæ¥æŽ§åˆ¶å¾ªçŽ¯
 
 	 mov cl,dh
-	 mov ch,0		;ÉèÖÃcxÎªdh£¬bxÀÛ¼Óµ½ÒªÊä³öµÄÐÐ
+	 mov ch,0		;è®¾ç½®cxä¸ºdhï¼Œbxç´¯åŠ åˆ°è¦è¾“å‡ºçš„è¡Œ
 	 mov bx,0
        l:add bx,160
 	 loop l
 	 mov dh,0
 	 add bx,dx
-	 add bx,dx		;bxÀÛ¼Óµ½Êä³öµÄÁÐ£¬ÖÁ´Ë£¬Êä³öÎ»ÖÃÉèÖÃÍê±Ï
+	 add bx,dx		;bxç´¯åŠ åˆ°è¾“å‡ºçš„åˆ—ï¼Œè‡³æ­¤ï¼Œè¾“å‡ºä½ç½®è®¾ç½®å®Œæ¯•
 	 
       lo:mov cl,ds:[si]
-	 mov ch,0		;Öð¸ö¶ÁÈ¡ds£ºsiÖ¸ÏòµÄÄÚÈÝ£¬Èç¹ûÊÇ0ÔòÌø³öÑ­»·£¬·ñÔò½øÐÐÏà¹ØÊä³ö²Ù×÷
+	 mov ch,0		;é€ä¸ªè¯»å–dsï¼šsiæŒ‡å‘çš„å†…å®¹ï¼Œå¦‚æžœæ˜¯0åˆ™è·³å‡ºå¾ªçŽ¯ï¼Œå¦åˆ™è¿›è¡Œç›¸å…³è¾“å‡ºæ“ä½œ
 	 inc si
-	 jcxz loo		;Èç¹ûÄÚÈÝÎª0£¬ÔòÌø³ö
-	 mov es:[bx],cl		;Êä³öÄÚÈÝ
+	 jcxz loo		;å¦‚æžœå†…å®¹ä¸º0ï¼Œåˆ™è·³å‡º
+	 mov es:[bx],cl		;è¾“å‡ºå†…å®¹
 	 inc bx
-	 mov es:[bx],al		;Êä³öÑùÊ½
+	 mov es:[bx],al		;è¾“å‡ºæ ·å¼
 	 inc bx
 	 loop lo
 
-     loo:pop dx			;»Ö¸´¼Ä´æÆ÷
+     loo:pop dx			;æ¢å¤å¯„å­˜å™¨
 	 pop cx
 	 pop ax
 	 pop si
