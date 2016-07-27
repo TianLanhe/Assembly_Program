@@ -15,42 +15,42 @@ stack segment
 stack ends
 code segment
    start:mov ax,data
-	 mov ds,ax		;����dsָ��Դ���ݵ�ַ
+	 mov ds,ax		;设置ds指向源数据地址
 	 
 	 mov ax,table
-	 mov es,ax		;����esָ��Ŀ�ĵ�ַ
+	 mov es,ax		;设置es指向目的地址
 
 	 mov ax,stack
 	 mov ss,ax
-	 mov sp,10H		;����ջ��
+	 mov sp,10H		;设置栈段
 
-	 mov bp,0		;bpΪԴ����(���ֽ�)��ǰ��ȡλ��
-	 mov bx,0		;bxΪ����
-	 mov di,0		;bpΪԴ����(���ֽ�)��ǰ��ȡλ��
-	 mov cx,21		;�������ѭ��21��
+	 mov bp,0		;bp为源数据(两字节)当前读取位置
+	 mov bx,0		;bx为行数
+	 mov di,0		;bp为源数据(四字节)当前读取位置
+	 mov cx,21		;设置外层循环21次
 
        s:mov si,0
 	 push cx
-	 mov cx,2		;��ջ������ѭ��2�Σ�����ݺ���������ζ�ȡ
+	 mov cx,2		;入栈并设置循环2次，将年份和收入分两次读取
 
       s0:mov ax,[di]
-	 mov es:[bx].[si],ax	;�����ת�Ƶ�Ŀ�ĵ�ַ
+	 mov es:[bx].[si],ax	;将年份转移到目的地址
 	 mov ax,84[di]
-	 mov es:[bx].5[si],ax	;������ת�Ƶ�Ŀ�ĵ�ַ
+	 mov es:[bx].5[si],ax	;将收入转移到目的地址
 	 add si,2
   	 add di,2
-	 loop s0		;��ѭ������
+	 loop s0		;内循环结束
 
 	 mov ax,ds:168[bp]
-	 mov word ptr es:[bx].10,ax	;����Ա��ת�Ƶ�Ŀ�ĵ�ַ
-	 mov ax,es:[bx].5		;������ĵ�16λ���Ƶ�ax�У�Ϊ������׼��
-	 mov dx,es:[bx].7		;������ĸ�16λ���Ƶ�dx�У�Ϊ������׼��
-         div word ptr ds:168[bp]	;������Թ�Ա�������õ����˾����봢����ax��
-	 mov es:[bx].13,ax		;���˾��������Ŀ�ĵ�ַ
+	 mov word ptr es:[bx].10,ax	;将雇员数转移到目的地址
+	 mov ax,es:[bx].5		;将收入的低16位复制到ax中，为出发做准备
+	 mov dx,es:[bx].7		;将收入的高16位复制到dx中，为出发做准备
+         div word ptr ds:168[bp]	;收入除以雇员人数，得到的人均收入储存在ax中
+	 mov es:[bx].13,ax		;将人均收入放入目的地址
 	 add bp,2
 	 pop cx
 	 add bx,10H
-	 loop s				;��ѭ���������ѽ�21�з���Ŀ�ĵ�ַ
+	 loop s				;外循环结束，已将21行放入目的地址
  
 	 mov ax,4c00H
          int 21h
