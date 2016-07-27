@@ -8,16 +8,16 @@ stack ends
 code segment
   start:mov ax,stack
 	mov ss,ax
-	mov sp,16		;³õÊ¼»¯Õ»
+	mov sp,16		;åˆå§‹åŒ–æ ˆ
 
 	mov ax,data
 	mov ds,ax
-	mov si,0		;³õÊ¼»¯ds:siÖ¸ÏòÊ×µØÖ·
+	mov si,0		;åˆå§‹åŒ–ds:siæŒ‡å‘é¦–åœ°å€
 
 	mov dh,10
 	mov dl,0
-	mov cl,00001100B	;ÉèÖÃµÚ10ÐÐµÚ0ÁÐ£¬ÑÕÉ«ÎªºìÉ«
-	call show_str		;´òÓ¡×Ö·û´®
+	mov cl,00001100B	;è®¾ç½®ç¬¬10è¡Œç¬¬0åˆ—ï¼Œé¢œè‰²ä¸ºçº¢è‰²
+	call show_str		;æ‰“å°å­—ç¬¦ä¸²
 
 	mov ax,4c00h
 	int 21h
@@ -27,32 +27,32 @@ show_str:push bx
 	 push si
 	 push ax
 	 push cx
-	 push dx		;±£´æ¼Ä´æÆ÷
+	 push dx		;ä¿å­˜å¯„å­˜å™¨
 
 	 mov ax,0B800H
-	 mov es,ax		;ÉèÖÃes£ºbxÎªÊä³öÊ×µØÖ·
-	 mov al,cl		;ÉèÖÃalÎªÑÕÉ«£¬ÒÔ¿Õ³öcxÀ´¿ØÖÆÑ­»·
+	 mov es,ax		;è®¾ç½®esï¼šbxä¸ºè¾“å‡ºé¦–åœ°å€
+	 mov al,cl		;è®¾ç½®alä¸ºé¢œè‰²ï¼Œä»¥ç©ºå‡ºcxæ¥æŽ§åˆ¶å¾ªçŽ¯
 
 	 mov cl,dh
-	 mov ch,0		;ÉèÖÃcxÎªdh£¬bxÀÛ¼Óµ½ÒªÊä³öµÄÐÐ
+	 mov ch,0		;è®¾ç½®cxä¸ºdhï¼Œbxç´¯åŠ åˆ°è¦è¾“å‡ºçš„è¡Œ
 	 mov bx,0
        l:add bx,160
 	 loop l
 	 mov dh,0
 	 add bx,dx
-	 add bx,dx		;bxÀÛ¼Óµ½Êä³öµÄÁÐ£¬ÖÁ´Ë£¬Êä³öÎ»ÖÃÉèÖÃÍê±Ï
+	 add bx,dx		;bxç´¯åŠ åˆ°è¾“å‡ºçš„åˆ—ï¼Œè‡³æ­¤ï¼Œè¾“å‡ºä½ç½®è®¾ç½®å®Œæ¯•
 	 
       lo:mov cl,ds:[si]
-	 mov ch,0		;Öð¸ö¶ÁÈ¡ds£ºsiÖ¸ÏòµÄÄÚÈÝ£¬Èç¹ûÊÇ0ÔòÌø³öÑ­»·£¬·ñÔò½øÐÐÏà¹ØÊä³ö²Ù×÷
+	 mov ch,0		;é€ä¸ªè¯»å–dsï¼šsiæŒ‡å‘çš„å†…å®¹ï¼Œå¦‚æžœæ˜¯0åˆ™è·³å‡ºå¾ªçŽ¯ï¼Œå¦åˆ™è¿›è¡Œç›¸å…³è¾“å‡ºæ“ä½œ
 	 inc si
-	 jcxz loo		;Èç¹ûÄÚÈÝÎª0£¬ÔòÌø³ö
-	 mov es:[bx],cl		;Êä³öÄÚÈÝ
+	 jcxz loo		;å¦‚æžœå†…å®¹ä¸º0ï¼Œåˆ™è·³å‡º
+	 mov es:[bx],cl		;è¾“å‡ºå†…å®¹
 	 inc bx
-	 mov es:[bx],al		;Êä³öÑùÊ½
+	 mov es:[bx],al		;è¾“å‡ºæ ·å¼
 	 inc bx
 	 loop lo
 
-     loo:pop dx			;»Ö¸´¼Ä´æÆ÷
+     loo:pop dx			;æ¢å¤å¯„å­˜å™¨
 	 pop cx
 	 pop ax
 	 pop si
@@ -63,11 +63,3 @@ show_str:push bx
 
 code ends
 end start
-
-
-
-
-
-
-
-
