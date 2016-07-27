@@ -36,8 +36,3 @@ letterc:push si
 
 code ends
 end start
-
-
-
-
-
